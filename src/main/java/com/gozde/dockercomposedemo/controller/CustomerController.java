@@ -4,10 +4,7 @@ import com.gozde.dockercomposedemo.model.Customer;
 import com.gozde.dockercomposedemo.model.dto.CreateCustomerDto;
 import com.gozde.dockercomposedemo.service.CustomerService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,8 +25,18 @@ public class CustomerController {
         return ResponseEntity.ok(allCustomers);
     }
 
+    @GetMapping("/customers/{id}")
+    public ResponseEntity<Customer> getCustomerById(@PathVariable Long id) {
+        Customer customer = customerService.getCustomerById(id);
+        if (customer != null) {
+            return ResponseEntity.ok(customer);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @PostMapping("/create")
-    public ResponseEntity<CreateCustomerDto> createCustomer(CreateCustomerDto dto) {
+    public ResponseEntity<CreateCustomerDto> createCustomer(@RequestBody CreateCustomerDto dto) {
         customerService.createCustomer(dto);
         return ResponseEntity.ok(dto);
     }

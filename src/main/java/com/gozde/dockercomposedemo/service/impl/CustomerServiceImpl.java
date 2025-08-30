@@ -26,6 +26,11 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public Customer getCustomerById(Long id) {
+        return customerRepository.findById(id).orElse(null);
+    }
+
+    @Override
     public void createCustomer(CreateCustomerDto dto) {
 
         if (ObjectUtils.isEmpty(dto)) {
